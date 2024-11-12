@@ -21,7 +21,7 @@ login(hf_token)
 def generate_quotes(model_path, num_quotes=5, max_length=2048):
     """Generate new quotes using the trained model"""
     tokenizer = GPT2Tokenizer.from_pretrained(model_path)
-    model = GPT2LMHeadModel.from_pretrained(model_path)
+    model = GPT2LMHeadModel.from_pretrained(model_path,use_safetensors=True)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.to(device)
