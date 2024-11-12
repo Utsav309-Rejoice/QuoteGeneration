@@ -7,12 +7,10 @@ from huggingface_hub import login
 import numpy as np
 import openai
 import os
-from dotenv import load_dotenv
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
-load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 # Hugging Face API Token and model details
-hf_token = os.getenv("HF_TOKEN")
+hf_token = st.secrets["HF_TOKEN"]
 API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev"
 headers = {"Authorization": f"Bearer {hf_token}"}
 
