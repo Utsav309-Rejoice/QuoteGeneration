@@ -1,4 +1,3 @@
-import torch
 import streamlit as st
 import requests
 import io
