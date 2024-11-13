@@ -21,7 +21,7 @@ login(hf_token)
 def generate_quotes(model_path, num_quotes=5, max_length=2048):
     """Generate new quotes using the trained model"""
     generated_quotes = []
-    client = Client("https://2d6b7be1868b5f7fa0.gradio.live")
+    client = Client("UtsavSD/Quotemaker")
     for i in range(num_quotes):
         result = client.predict(api_name="/get_suggestion")
         print(result)
