@@ -6,8 +6,9 @@ from PIL import Image
 from huggingface_hub import login
 import numpy as np
 import openai
-import os
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+import gradio
+from gradio_client import Client
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 # Hugging Face API Token and model details
 hf_token = st.secrets["HF_TOKEN"]
@@ -20,36 +21,12 @@ login(hf_token)
 
 def generate_quotes(model_path, num_quotes=5, max_length=2048):
     """Generate new quotes using the trained model"""
-    tokenizer = GPT2Tokenizer.from_pretrained(model_path)
-    model = GPT2LMHeadModel.from_pretrained(model_path,use_safetensors=True)
-
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model.to(device)
-    model.eval()
     generated_quotes = []
-    for _ in range(num_quotes):
-        # Create input prompt
-        input_text = f"<|startoftext|>"
-        input_ids = tokenizer.encode(input_text, return_tensors='pt').to(device)
-
-        # Generate quote
-        output = model.generate(
-            input_ids,
-            max_length=max_length,
-            num_return_sequences=1,
-            no_repeat_ngram_size=2,
-            do_sample=True,
-            top_k=50,
-            top_p=0.95,
-            temperature=0.9,
-            pad_token_id=tokenizer.pad_token_id,
-            eos_token_id=tokenizer.encode("<|endoftext|>")[0]
-        )
-
-        # Decode and clean up the generated quote
-        quote = tokenizer.decode(output[0], skip_special_tokens=True)
-        generated_quotes.append(quote)
-
+    client = Client("https://2d6b7be1868b5f7fa0.gradio.live")
+    for i in range(num_quotes):
+        result = client.predict(api_name="/get_suggestion")
+        print(result)
+        generated_quotes.append(result)
     return generated_quotes
 
 # Define the function to query the Hugging Face model
