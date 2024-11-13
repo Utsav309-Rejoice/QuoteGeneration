@@ -59,7 +59,7 @@ else:
 thoughts = generate_quotes("quotegeneratormodel")
 thought = np.random.choice(thoughts)
 print(thought)
-
+st.write(thought)
 custom_prompt = f"""
 Create a detailed Stable Diffusion prompt that will generate an image featuring this quote: "{thought}"
 
