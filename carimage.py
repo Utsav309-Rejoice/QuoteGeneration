@@ -1,7 +1,6 @@
 import base64
 import openai
-from dotenv import load_dotenv
-load_dotenv()
+
 import os
 import json
 import requests
@@ -14,8 +13,9 @@ import numpy as np
 import gradio
 from gradio_client import Client
 import cv2
-openai.api_key = os.getenv("OPENAI_API_KEY")
-hf_token = os.getenv("HF_TOKEN")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+# Hugging Face API Token and model details
+hf_token = st.secrets["HF_TOKEN"]
 API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev"
 headers = {"Authorization": f"Bearer {hf_token}"}
 
@@ -25,7 +25,7 @@ def generating_pipeline():
     quote = generate_quotes()
     get_image_plain(quote)
     outdoor_image = indoor_outdoor("generated_image.png")
-    font_file_path = "C:/Users/Dream_RH/Downloads/dejavu-sans-bold.ttf"
+    font_file_path = "dejavu-sans-bold.ttf"
     print(outdoor_image)
     if outdoor_image == True:
         setting_type = "outdoor"
